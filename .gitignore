@@ -6,7 +6,6 @@
 *.ear
 
 /parfume.iml
-
 /parfume.ipr
-
 /parfume.iws
+/target
