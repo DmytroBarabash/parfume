@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+
+/parfume.iml
+
+/parfume.ipr
+
+/parfume.iws
