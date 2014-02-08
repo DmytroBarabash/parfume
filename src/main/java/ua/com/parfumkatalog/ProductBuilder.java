@@ -28,11 +28,7 @@ public class ProductBuilder {
             }
             switch (productProperty) {
                 case CODE:
-                    if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                        product.setCode(String.valueOf(Math.round(cell.getNumericCellValue())));
-                    } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
-                        product.setCode(cell.getStringCellValue());
-                    }
+                    product.setCode(Util.readCode(cell));
                     break;
                 case CATEGORY:
                     product.setCategory(cell.getStringCellValue());
