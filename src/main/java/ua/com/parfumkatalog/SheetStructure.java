@@ -8,14 +8,20 @@ import java.util.Map;
  */
 public class SheetStructure {
 
-    private Map<Integer, ProductProperties> columns = new HashMap<Integer, ProductProperties>();
+    private Map<Integer, ProductProperty> columns = new HashMap<Integer, ProductProperty>();
 
-    public ProductProperties getProperty(int column) {
-        return columns.get(Integer.valueOf(column));
+    public ProductProperty getProperty(int column) {
+        return columns.get(column);
     }
 
-    public void setPropertyMapping(int column, ProductProperties productProperties) {
-        columns.put(Integer.valueOf(column), productProperties);
+    public void setPropertyMapping(int column, ProductProperty productProperty) {
+        columns.put(column, productProperty);
+    }
+
+    public boolean isValid() {
+        return columns.containsValue(ProductProperty.CODE) &&
+                columns.containsValue(ProductProperty.NAME) &&
+                columns.containsValue(ProductProperty.PRICE);
     }
 
 }
