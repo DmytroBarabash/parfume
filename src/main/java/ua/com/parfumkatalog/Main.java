@@ -1,7 +1,9 @@
 package ua.com.parfumkatalog;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,10 +14,18 @@ import java.util.List;
  */
 public class Main {
 
+    private final static Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
+        logger.info("Start");
         ExcelImporter excelImporter = new ExcelImporter();
 
-        List<List<HSSFCell>> codeSheet = excelImporter.importExcelSheet("d:\\000\\Prices_Junction\\коды.xls");
+        File file = new File("xls/коды.xls");
+        if (!file.exists()) {
+            logger.error("File " + file + " not found");
+            return;
+        }
+        List<List<HSSFCell>> codeSheet = excelImporter.importExcelSheet(file.getAbsolutePath());
         List<HSSFCell> supplierRow = codeSheet.get(0);
         List<HSSFCell> sheetStructureRow = codeSheet.get(1);
         List<Supplier> suppliers = new ArrayList<Supplier>();
