@@ -57,9 +57,9 @@ public class Main {
 
         for (Supplier supplier : suppliers) {
             List<List<HSSFCell>> sheet = excelImporter
-                    .importExcelSheet("d:\\000\\Prices_Junction\\" + supplier.getName() + ".xls");
-            System.out.println(supplier.getName());
-            System.out.println(supplier.getCodes());
+                    .importExcelSheet("xls/" + supplier.getName() + ".xls");
+            logger.info("Supplier: " + supplier.getName());
+            logger.debug("Supplier codes: " + supplier.getCodes());
             int i = 0;
             ProductBuilder builder = new ProductBuilder(supplier.getSheetStructure());
             for (List<HSSFCell> row : sheet) {
@@ -68,7 +68,7 @@ public class Main {
                     String superCode = supplier.getCodes().get(product.getCode());
                     if (superCode != null && !superCode.isEmpty()) {
                         supplier.getProducts().put(superCode, product);
-                        System.out.println(i + ": " + superCode + " " + product);
+                        logger.debug(i + ": " + superCode + " " + product);
                     }
                 }
                 i++;
@@ -83,13 +83,13 @@ public class Main {
                     sameProducts.add(product);
                 }
             }
-            Collections.sort(sameProducts, new Comparator<Product>() {
-                @Override
-                public int compare(Product o1, Product o2) {
-                    return o1.getPrice().compareTo(o2.getPrice());
-                }
-            });
             if (sameProducts.size() > 1) {
+                Collections.sort(sameProducts, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product o1, Product o2) {
+                        return o1.getPrice().compareTo(o2.getPrice());
+                    }
+                });
                 System.out.println(sameProducts);
             }
         }
