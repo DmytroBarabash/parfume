@@ -17,9 +17,14 @@ import java.util.List;
  */
 public class ExcelImporter {
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private static final Logger LOGGER = Logger.getLogger(ExcelImporter.class);
 
-    public List<List<HSSFCell>> importExcelSheet(String fileName) {
+    /**
+     * Read the first sheet from the file
+     * @param fileName where to read from
+     * @return list of row (every row is list of {@code HSSFCell})
+     */
+    public static List<List<HSSFCell>> importExcelSheet(String fileName) {
         List<List<HSSFCell>> result = new ArrayList<List<HSSFCell>>();
         try {
             Workbook workBook = WorkbookFactory.create(new FileInputStream(fileName));
@@ -38,7 +43,7 @@ public class ExcelImporter {
                 result.add(cellStoreVector);
             }
         } catch (Exception ex) {
-            logger.error("Couldn't parse file '" + fileName + "'", ex);
+            LOGGER.error("Couldn't parse file '" + fileName + "'", ex);
         }
         return result;
     }
