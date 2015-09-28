@@ -1,5 +1,8 @@
 package ua.com.parfumkatalog;
 
+import com.google.common.collect.ImmutableMap;
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +11,13 @@ import java.util.Map;
  */
 public class SheetStructure {
 
+    private static final Logger LOGGER = Logger.getLogger(ExcelImporter.class);
+
     private Map<Integer, ProductProperty> columns = new HashMap<Integer, ProductProperty>();
+
+    public SheetStructure(String s) {
+        buildSheetStructure(s);
+    }
 
     public ProductProperty getProperty(int column) {
         return columns.get(column);
@@ -22,6 +31,34 @@ public class SheetStructure {
         return columns.containsValue(ProductProperty.CODE) &&
                 columns.containsValue(ProductProperty.NAME) &&
                 columns.containsValue(ProductProperty.PRICE);
+    }
+
+    public Map<Integer, ProductProperty> getColumns() {
+        return ImmutableMap.copyOf(columns);
+    }
+
+    private static int getInt(String s) {
+        try {
+            return Integer.valueOf(s.trim());
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
+
+    private void buildSheetStructure(String s) {
+        try {
+            String[] ss = s.split(",");
+            for (ProductProperty p : ProductProperty.values()) {
+                int i = getInt(ss[p.ordinal()]);
+                if (i > 0) {
+                    setPropertyMapping(i - 1, p);
+                } else {
+                    LOGGER.error("Bad value " + i + " in string '" + s + "' for sheet structure");
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error("Bad string '" + s + "' for sheet structure");
+        }
     }
 
 }

@@ -4,9 +4,8 @@ import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author <a href="mailto:dmytro.barabash@playtech.com"> Dmytro Barabash</a> 2013-09-06 15:42
@@ -17,6 +16,15 @@ public class Main {
 
     public static void main(String[] args) {
         logger.info("Start");
+
+        //Locale currentLocale = new Locale("en", "US");
+
+        Locale currentLocale = new Locale("ru", "RU");
+
+        ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
+        System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
+        //System.out.println(messages.getString("inquiry"));
+        //System.out.println(messages.getString("farewell"));
 
         File file = new File("xls/коды.xls");
         if (!file.exists()) {
@@ -34,8 +42,13 @@ public class Main {
             processor.processSupplier(supplier);
         }
 
+        List<Product> result = new ArrayList<Product>();
         for (String superCode : processor.getSuperCodes()) {
             List<Product> sameProducts = processor.obtainSameProducts(superCode);
+            if (sameProducts.isEmpty()) {
+                continue;
+            }
+
             if (sameProducts.size() > 1) {
                 Collections.sort(sameProducts, new Comparator<Product>() {
                     @Override
@@ -43,8 +56,14 @@ public class Main {
                         return o1.getPrice().compareTo(o2.getPrice());
                     }
                 });
-                System.out.println(sameProducts);
             }
+            result.add(sameProducts.get(0));
+        }
+        System.out.println(result);
+        try {
+            ExcelExporter.export(result, "xls/workbook.xls");
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
     }

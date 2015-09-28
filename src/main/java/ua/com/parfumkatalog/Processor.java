@@ -2,6 +2,7 @@ package ua.com.parfumkatalog;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.omg.CORBA.ShortSeqHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Processor {
             HSSFCell cell = supplierRow.get(k);
             Supplier supplier = new Supplier();
             supplier.setName(cell.getStringCellValue());
-            supplier.buildSheetStructure(sheetStructureRow.get(k).getStringCellValue());
+            supplier.setSheetStructure(new SheetStructure(sheetStructureRow.get(k).getStringCellValue()));
             if (supplier.isValid()) {
                 suppliers.add(supplier);
             }
@@ -72,9 +73,9 @@ public class Processor {
         LOGGER.info("Supplier: " + supplier.getName());
         LOGGER.debug("Supplier codes: " + supplier.getCodes());
         int i = 0;
-        ProductBuilder builder = new ProductBuilder(supplier.getSheetStructure());
+        ProductConverter builder = new ProductConverter(supplier.getSheetStructure());
         for (List<HSSFCell> row : sheet) {
-            Product product = builder.build(row);
+            Product product = builder.toProduct(row);
             if (product.isValid()) {
                 String superCode = supplier.getCodes().get(product.getCode());
                 if (superCode != null && !superCode.isEmpty()) {

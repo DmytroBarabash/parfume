@@ -1,5 +1,8 @@
 package ua.com.parfumkatalog;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+
 import java.math.BigDecimal;
 
 /**
@@ -16,9 +19,7 @@ public class Product {
     private String description;
 
     public boolean isValid() {
-        if (code == null || code.isEmpty() || code.trim().isEmpty()) return false;
-        if (name == null || name.isEmpty() || name.trim().isEmpty()) return false;
-        return price != null;
+        return !(Strings.isNullOrEmpty(code) || Strings.isNullOrEmpty(name) || price == null);
     }
 
     public String getCode() {
@@ -42,9 +43,10 @@ public class Product {
     }
 
     public void setFemale(String gender) {
-        if (gender == null || gender.isEmpty()) {
+        if (Strings.isNullOrEmpty(gender)) {
             female = null;
         } else {
+            //todo use regexp and get it from configuration
             String g = gender.toLowerCase();
             if (g.startsWith("w") || g.startsWith("f") || g.startsWith("l")) {
                 female = true;
@@ -94,17 +96,15 @@ public class Product {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("Product");
-        sb.append("{code='").append(code).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", category='").append(category).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", female=").append(female);
-        sb.append(", volume=").append(volume);
-        sb.append(", price=").append(price);
-        sb.append('}');
-        return sb.toString();
+        return Objects.toStringHelper(this)
+                .add("code", code)
+                .add("name", name)
+                .add("female", female)
+                .add("volume", volume)
+                .add("price", price)
+                .add("category", category)
+                .add("description", description)
+                .toString();
     }
 
 }
