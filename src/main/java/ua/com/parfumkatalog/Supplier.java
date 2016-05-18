@@ -1,5 +1,6 @@
 package ua.com.parfumkatalog;
 
+import com.google.common.base.MoreObjects;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -33,16 +34,6 @@ public class Supplier {
         this.sheetStructure = sheetStructure;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("Supplier");
-        sb.append("{name='").append(name).append('\'');
-        sb.append(", sheetStructure=").append(sheetStructure);
-        sb.append('}');
-        return sb.toString();
-    }
-
     public boolean isValid() {
         return name != null && !name.isEmpty() && !name.trim().isEmpty()
                 && sheetStructure != null && sheetStructure.isValid();
@@ -63,4 +54,13 @@ public class Supplier {
     public void setCodes(Map<String, String> codes) {
         this.codes = codes;
     }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("sheetStructure", sheetStructure)
+                .toString();
+    }
+
 }

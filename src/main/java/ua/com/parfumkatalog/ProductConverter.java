@@ -5,7 +5,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class ProductConverter {
                     product.setName(cell.getStringCellValue());
                     break;
                 case GENDER:
-                    product.setFemale(cell.getStringCellValue());
+                    product.setGender(cell.getStringCellValue());
                     break;
                 case DESCRIPTION:
                     product.setDescription(cell.getStringCellValue());
@@ -92,7 +91,7 @@ public class ProductConverter {
                     break;
                 case GENDER:
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_BOOLEAN);
-                    cell.setCellValue(product.getFemale());
+                    cell.setCellValue(product.getGender().name());
                     break;
                 case DESCRIPTION:
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);

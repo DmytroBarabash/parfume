@@ -51,7 +51,6 @@ public class Main {
 
             if (sameProducts.size() > 1) {
                 Collections.sort(sameProducts, new Comparator<Product>() {
-                    @Override
                     public int compare(Product o1, Product o2) {
                         return o1.getPrice().compareTo(o2.getPrice());
                     }
@@ -63,7 +62,7 @@ public class Main {
         try {
             ExcelExporter.export(result, "xls/workbook.xls");
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
     }

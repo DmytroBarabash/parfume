@@ -1,6 +1,6 @@
 package ua.com.parfumkatalog;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ public class Product {
 
     private String code;
     private String name;
-    private Boolean female;
+    private Gender gender;
     private Integer volume;
     private BigDecimal price;
     private String category;
@@ -38,28 +38,26 @@ public class Product {
         this.name = name;
     }
 
-    public Boolean getFemale() {
-        return female;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setFemale(String gender) {
+    public void setGender(String gender) {
         if (Strings.isNullOrEmpty(gender)) {
-            female = null;
+            this.gender = Gender.UNKNOWN;
         } else {
             //todo use regexp and get it from configuration
             String g = gender.toLowerCase();
             if (g.startsWith("w") || g.startsWith("f") || g.startsWith("l")) {
-                female = true;
+                this.gender = Gender.FEMALE;
             } else if (g.startsWith("m")) {
-                female = false;
+                this.gender = Gender.MALE;
+            } else if (g.startsWith("u")) {
+                this.gender = Gender.UNISEX;
             } else {
-                female = null;
+                this.gender = Gender.UNKNOWN;
             }
         }
-    }
-
-    public void setFemale(Boolean female) {
-        this.female = female;
     }
 
     public Integer getVolume() {
@@ -96,10 +94,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("code", code)
                 .add("name", name)
-                .add("female", female)
+                .add("gender", gender)
                 .add("volume", volume)
                 .add("price", price)
                 .add("category", category)

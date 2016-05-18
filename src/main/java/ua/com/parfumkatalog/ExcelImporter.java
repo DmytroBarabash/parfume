@@ -22,7 +22,7 @@ public class ExcelImporter {
     /**
      * Read the first sheet from the file
      * @param fileName where to read from
-     * @return list of row (every row is list of {@code HSSFCell})
+     * @return list of rows (every row is list of {@code HSSFCell})
      */
     public static List<List<HSSFCell>> importExcelSheet(String fileName) {
         List<List<HSSFCell>> result = new ArrayList<List<HSSFCell>>();
