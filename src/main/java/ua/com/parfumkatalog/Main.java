@@ -18,13 +18,10 @@ public class Main {
         logger.info("Start");
 
         //Locale currentLocale = new Locale("en", "US");
-
         Locale currentLocale = new Locale("ru", "RU");
 
         ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
         System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
-        //System.out.println(messages.getString("inquiry"));
-        //System.out.println(messages.getString("farewell"));
 
         File file = new File("xls/коды.xls");
         if (!file.exists()) {
@@ -58,7 +55,6 @@ public class Main {
             }
             result.add(sameProducts.get(0));
         }
-        System.out.println(result);
         try {
             ExcelExporter.export(result, "xls/workbook.xls");
         } catch (IOException e) {

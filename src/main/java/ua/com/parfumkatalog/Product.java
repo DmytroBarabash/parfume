@@ -17,6 +17,7 @@ public class Product {
     private BigDecimal price;
     private String category;
     private String description;
+    private String supplier;
 
     public boolean isValid() {
         return !(Strings.isNullOrEmpty(code) || Strings.isNullOrEmpty(name) || price == null);
@@ -92,6 +93,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -102,6 +111,7 @@ public class Product {
                 .add("price", price)
                 .add("category", category)
                 .add("description", description)
+                .add("supplier", supplier)
                 .toString();
     }
 

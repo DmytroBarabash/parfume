@@ -3,7 +3,7 @@ package ua.com.parfumkatalog;
 import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +13,7 @@ public class SheetStructure {
 
     private static final Logger LOGGER = Logger.getLogger(ExcelImporter.class);
 
-    private Map<Integer, ProductProperty> columns = new HashMap<Integer, ProductProperty>();
+    private Map<Integer, ProductProperty> columns = new LinkedHashMap<Integer, ProductProperty>();
 
     public SheetStructure(String s) {
         buildSheetStructure(s);

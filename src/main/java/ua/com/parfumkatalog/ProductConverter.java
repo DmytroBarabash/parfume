@@ -105,6 +105,10 @@ public class ProductConverter {
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
                     cell.setCellValue(product.getVolume());
                     break;
+                case SUPPLIER:
+                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell.setCellValue(product.getSupplier());
+                    break;
                 default:
                     break;
             }

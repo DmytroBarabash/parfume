@@ -76,6 +76,7 @@ public class Processor {
         ProductConverter builder = new ProductConverter(supplier.getSheetStructure());
         for (List<HSSFCell> row : sheet) {
             Product product = builder.toProduct(row);
+            product.setSupplier(supplier.getName());
             if (product.isValid()) {
                 String superCode = supplier.getCodes().get(product.getCode());
                 if (superCode != null && !superCode.isEmpty()) {
