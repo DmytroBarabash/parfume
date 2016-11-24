@@ -2,6 +2,7 @@ package ua.com.parfumkatalog;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.ss.usermodel.Cell;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class Main {
             logger.error("File " + file + " not found");
             return;
         }
-        List<List<HSSFCell>> codeSheet = ExcelImporter.importExcelSheet(file.getAbsolutePath());
+        List<List<Cell>> codeSheet = ExcelImporter.importExcelSheet(file.getAbsolutePath());
         Processor processor = new Processor();
         processor.setCodeSheet(codeSheet);
         processor.processSuppliers();

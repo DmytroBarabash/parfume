@@ -12,7 +12,7 @@ public class Product {
 
     private String code;
     private String name;
-    private Gender gender;
+    private Gender gender = Gender.UNKNOWN;
     private Integer volume;
     private BigDecimal price;
     private String category;

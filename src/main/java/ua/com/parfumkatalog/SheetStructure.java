@@ -1,10 +1,13 @@
 package ua.com.parfumkatalog;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Logger;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static ua.com.parfumkatalog.ProductProperty.SUPPLIER;
 
 /**
  * @author <a href="mailto:dmytro.barabash@playtech.com"> Dmytro Barabash</a> 2013-09-06 16:59
@@ -49,6 +52,9 @@ public class SheetStructure {
         try {
             String[] ss = s.split(",");
             for (ProductProperty p : ProductProperty.values()) {
+                if (p == SUPPLIER) {
+                    continue;
+                }
                 int i = getInt(ss[p.ordinal()]);
                 if (i > 0) {
                     setPropertyMapping(i - 1, p);
@@ -57,8 +63,14 @@ public class SheetStructure {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Bad string '" + s + "' for sheet structure");
+            LOGGER.error("Bad string '" + s + "' for sheet structure", ex);
         }
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("columns", columns)
+                .toString();
+    }
 }

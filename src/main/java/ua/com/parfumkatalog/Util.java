@@ -1,6 +1,5 @@
 package ua.com.parfumkatalog;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 
 /**
@@ -8,7 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
  */
 public class Util {
 
-    public static String readCode(HSSFCell cell) {
+    public static String readCode(Cell cell) {
         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             return String.valueOf(Math.round(cell.getNumericCellValue()));
         }

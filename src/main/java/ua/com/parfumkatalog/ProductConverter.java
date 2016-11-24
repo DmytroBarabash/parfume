@@ -1,10 +1,12 @@
 package ua.com.parfumkatalog;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -13,18 +15,22 @@ import java.util.Map;
  */
 public class ProductConverter {
 
+    private static final Logger LOGGER = Logger.getLogger(ProductConverter.class);
     private final SheetStructure sheetStructure;
 
     public ProductConverter(SheetStructure sheetStructure) {
         this.sheetStructure = sheetStructure;
+        LOGGER.info("sheetStructure: " + sheetStructure);
     }
 
-    public Product toProduct(List<HSSFCell> row) {
+    public Product toProduct(List<Cell> row) {
+        LOGGER.debug("Row to convert to Product: " + row);
         int j = -1;
         Product product = new Product();
-        for (HSSFCell cell : row) {
+        for (Cell cell : row) {
+
             j++;
-            ProductProperty productProperty = sheetStructure.getProperty(j);
+            ProductProperty productProperty = sheetStructure.getProperty(cell.getColumnIndex());
             if (productProperty == null) {
                 continue;
             }
@@ -47,7 +53,7 @@ public class ProductConverter {
                 case PRICE:
                     try {
                         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                            product.setPrice(BigDecimal.valueOf(cell.getNumericCellValue()));
+                            product.setPrice(BigDecimal.valueOf(cell.getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
                         } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
                             product.setPrice(new BigDecimal(cell.getStringCellValue()));
                         }
@@ -90,7 +96,7 @@ public class ProductConverter {
                     cell.setCellValue(product.getName());
                     break;
                 case GENDER:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_BOOLEAN);
+                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
                     cell.setCellValue(product.getGender().name());
                     break;
                 case DESCRIPTION:
@@ -102,8 +108,10 @@ public class ProductConverter {
                     cell.setCellValue(product.getPrice().doubleValue());
                     break;
                 case VOLUME:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
-                    cell.setCellValue(product.getVolume());
+                    if (product.getVolume() != null) {
+                        cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
+                        cell.setCellValue(product.getVolume());
+                    }
                     break;
                 case SUPPLIER:
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
