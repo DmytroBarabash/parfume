@@ -24,6 +24,15 @@ public class Processor {
     private List<Supplier> suppliers;
     private List<String> superCodes;
 
+    private String getStringValue(Cell cell, DataFormatter f) {
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_STRING:
+                return cell.getStringCellValue();
+            default:
+                return f.formatCellValue(cell);
+        }
+    }
+
     /**
      * Build list of suppliers and list of structures
      */
@@ -35,15 +44,8 @@ public class Processor {
         for (int k = 2; k < supplierRow.size(); k++) {
             Cell cell = supplierRow.get(k);
             Supplier supplier = new Supplier();
-            switch (cell.getCellType()) {
-                case Cell.CELL_TYPE_STRING:
-                    supplier.setName(cell.getStringCellValue());
-                    break;
-                default:
-                    supplier.setName(f.formatCellValue(cell));
-                    break;
-            }
-            supplier.setSheetStructure(new SheetStructure(sheetStructureRow.get(k).getStringCellValue()));
+            supplier.setName(getStringValue(cell, f));
+            supplier.setSheetStructure(new SheetStructure(getStringValue(sheetStructureRow.get(k), f)));
             if (supplier.isValid()) {
                 suppliers.add(supplier);
             }
@@ -68,12 +70,18 @@ public class Processor {
                 int i = 1;
                 for (Supplier supplier : suppliers) {
                     i++;
-                    String supplierCode = Util.readCode(row.get(i));
-                    if (supplierCode != null && !supplierCode.isEmpty()) {
-                        supplier.getCodes().put(supplierCode, code);
+                    if (i < row.size()) {
+                        String supplierCode = Util.readCode(row.get(i));
+                        if (supplierCode != null && !supplierCode.isEmpty()) {
+                            supplier.getCodes().put(supplierCode, code);
+                        }
                     }
                 }
             }
+        }
+        LOGGER.warn("Suppliers: " + suppliers);
+        for (Supplier supplier : suppliers) {
+            LOGGER.warn("Supplier " + supplier.getName() + "'s codes: " + supplier.getCodes());
         }
         return suppliers;
     }
@@ -90,7 +98,9 @@ public class Processor {
             product.setSupplier(supplier.getName());
             if (product.isValid()) {
                 String superCode = supplier.getCodes().get(product.getCode());
-                if (superCode != null && !superCode.isEmpty()) {
+                if (superCode == null || superCode.isEmpty()) {
+                    LOGGER.warn(i + ": No code for " + product);
+                } else {
                     supplier.getProducts().put(superCode, product);
                     LOGGER.debug(i + ": " + superCode + " " + product);
                 }
