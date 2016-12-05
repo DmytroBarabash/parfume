@@ -14,6 +14,7 @@ public class Supplier {
     private static final Logger LOGGER = Logger.getLogger(Supplier.class);
 
     private String name;
+    private int columnIndex;
     private SheetStructure sheetStructure;
     private Map<String, Product> products = new HashMap<String, Product>();
     private Map<String, String> codes = new HashMap<String, String>();
@@ -24,6 +25,14 @@ public class Supplier {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getColumnIndex() {
+        return columnIndex;
+    }
+
+    public void setColumnIndex(int columnIndex) {
+        this.columnIndex = columnIndex;
     }
 
     public SheetStructure getSheetStructure() {

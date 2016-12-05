@@ -1,14 +1,13 @@
 package ua.com.parfumkatalog;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.omg.CORBA.ShortSeqHelper;
 
-import java.text.Format;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Dmytro Barabash
@@ -45,6 +44,7 @@ public class Processor {
             Cell cell = supplierRow.get(k);
             Supplier supplier = new Supplier();
             supplier.setName(getStringValue(cell, f));
+            supplier.setColumnIndex(cell.getColumnIndex());
             supplier.setSheetStructure(new SheetStructure(getStringValue(sheetStructureRow.get(k), f)));
             if (supplier.isValid()) {
                 suppliers.add(supplier);
@@ -62,27 +62,40 @@ public class Processor {
 
     public List<Supplier> processSuperCodes() {
         superCodes = new ArrayList<String>();
+        Map<Integer, Supplier> supplierMap = new HashMap<Integer, Supplier>();
+        for (Supplier supplier : suppliers) {
+            supplierMap.put(supplier.getColumnIndex(), supplier);
+        }
         for (int m = 2; m < codeSheet.size(); m++) {
             List<Cell> row = codeSheet.get(m);
-            String code = Util.readCode(row.get(1));
-            if (code != null && !code.isEmpty()) {
-                superCodes.add(code);
-                int i = 1;
-                for (Supplier supplier : suppliers) {
-                    i++;
-                    if (i < row.size()) {
-                        String supplierCode = Util.readCode(row.get(i));
-                        if (supplierCode != null && !supplierCode.isEmpty()) {
-                            supplier.getCodes().put(supplierCode, code);
-                        }
+            String superCode = null;
+            for (Cell cell : row) {
+                if (cell.getColumnIndex() == 0) {
+                    // first column ignored
+                    continue;
+                }
+                if (cell.getColumnIndex() == 1) {
+                    superCode = Util.readCode(cell);
+                    if (superCode != null && !superCode.isEmpty()) {
+                        superCodes.add(superCode);
+                    }
+                    continue;
+                }
+                Supplier supplier = supplierMap.get(cell.getColumnIndex());
+                if (supplier != null) {
+                    String supplierCode = Util.readCode(cell);
+                    if (supplierCode != null && !supplierCode.isEmpty()) {
+                        supplier.getCodes().put(supplierCode, superCode);
                     }
                 }
             }
         }
+
         LOGGER.warn("Suppliers: " + suppliers);
         for (Supplier supplier : suppliers) {
             LOGGER.warn("Supplier " + supplier.getName() + "'s codes: " + supplier.getCodes());
         }
+
         return suppliers;
     }
 
