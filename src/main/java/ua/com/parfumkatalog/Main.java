@@ -1,11 +1,11 @@
 package ua.com.parfumkatalog;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -18,13 +18,17 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Start");
 
+        logger.info("file.encoding: " + System.getProperty("file.encoding"));
+        logger.info("defaultCharset: " + Charset.defaultCharset());
+        logger.info("defaultLocale: " + Locale.getDefault());
+
         //Locale currentLocale = new Locale("en", "US");
         Locale currentLocale = new Locale("ru", "RU");
-
         ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
-        System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
+        //System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
 
-        File file = new File("xls/коды.xls");
+        String codesFile = "xls/коды.xls";
+        File file = new File(codesFile);
         if (!file.exists()) {
             logger.error("File " + file + " not found");
             return;
