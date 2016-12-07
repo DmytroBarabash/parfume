@@ -40,9 +40,12 @@ public class SheetStructure {
         return ImmutableMap.copyOf(columns);
     }
 
-    private static int getInt(String s) {
+    private static int getInt(String[] ss, ProductProperty productProperty) {
+        if (ss.length <= productProperty.ordinal()) {
+            return 0;
+        }
         try {
-            return Integer.valueOf(s.trim());
+            return Integer.valueOf(ss[productProperty.ordinal()].trim());
         } catch (NumberFormatException ex) {
             return 0;
         }
@@ -55,11 +58,9 @@ public class SheetStructure {
                 if (p == SUPPLIER) {
                     continue;
                 }
-                int i = getInt(ss[p.ordinal()]);
+                int i = getInt(ss, p);
                 if (i > 0) {
                     setPropertyMapping(i - 1, p);
-                } else {
-                    LOGGER.error("Bad value " + i + " in string '" + s + "' for sheet structure");
                 }
             }
         } catch (Exception ex) {

@@ -19,7 +19,7 @@ public class ExcelExporter {
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet();
         int i = 0;
-        SheetStructure sheetStructure = new SheetStructure("1,8,3,4,5,6,7,2");
+        SheetStructure sheetStructure = new SheetStructure("2,9,4,5,6,7,8,3,1");
         ProductConverter productConverter = new ProductConverter(sheetStructure);
         for (Product product : products) {
             Row row = sheet.createRow(i++);

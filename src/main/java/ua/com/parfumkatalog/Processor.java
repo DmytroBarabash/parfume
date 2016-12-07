@@ -114,6 +114,7 @@ public class Processor {
                 if (superCode == null || superCode.isEmpty()) {
                     LOGGER.warn(i + ": No code for " + product);
                 } else {
+                    product.setSuperCode(superCode);
                     supplier.getProducts().put(superCode, product);
                     LOGGER.debug(i + ": " + superCode + " " + product);
                 }

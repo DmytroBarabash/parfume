@@ -5,6 +5,6 @@ package ua.com.parfumkatalog;
  */
 public enum ProductProperty {
 
-    CODE, CATEGORY, NAME, GENDER, DESCRIPTION, VOLUME, PRICE, SUPPLIER
+    CODE, CATEGORY, NAME, GENDER, DESCRIPTION, VOLUME, PRICE, SUPPLIER, SUPER_CODE
 
 }

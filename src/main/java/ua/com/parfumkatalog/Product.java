@@ -18,6 +18,7 @@ public class Product {
     private String category;
     private String description;
     private String supplier;
+    private String superCode;
 
     public boolean isValid() {
         return !(Strings.isNullOrEmpty(code) || Strings.isNullOrEmpty(name) || price == null);
@@ -101,6 +102,14 @@ public class Product {
         this.supplier = supplier;
     }
 
+    public String getSuperCode() {
+        return superCode;
+    }
+
+    public void setSuperCode(String superCode) {
+        this.superCode = superCode;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -112,6 +121,7 @@ public class Product {
                 .add("category", category)
                 .add("description", description)
                 .add("supplier", supplier)
+                .add("superCode", superCode)
                 .toString();
     }
 

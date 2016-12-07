@@ -117,6 +117,10 @@ public class ProductConverter {
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
                     cell.setCellValue(product.getSupplier());
                     break;
+                case SUPER_CODE:
+                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell.setCellValue(product.getSuperCode());
+                    break;
                 default:
                     break;
             }
