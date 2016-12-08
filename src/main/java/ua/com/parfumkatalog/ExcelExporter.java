@@ -1,13 +1,12 @@
 package ua.com.parfumkatalog;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Dmytro Barabash
@@ -20,6 +19,11 @@ public class ExcelExporter {
         Sheet sheet = wb.createSheet();
         int i = 0;
         SheetStructure sheetStructure = new SheetStructure("2,9,4,5,6,7,8,3,1");
+        Row head = sheet.createRow(i++);
+        for (Map.Entry<Integer, ProductProperty> e: sheetStructure.getColumns().entrySet()) {
+            Cell cell = head.createCell(e.getKey(), Cell.CELL_TYPE_STRING);
+            cell.setCellValue(e.getValue().name());
+        }
         ProductConverter productConverter = new ProductConverter(sheetStructure);
         for (Product product : products) {
             Row row = sheet.createRow(i++);
