@@ -25,7 +25,7 @@ public class Main {
         //Locale currentLocale = new Locale("en", "US");
         Locale currentLocale = new Locale("ru", "RU");
         ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
-        //System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
+        System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
 
         String codesFile = "xls/коды.xls";
         File file = new File(codesFile);
