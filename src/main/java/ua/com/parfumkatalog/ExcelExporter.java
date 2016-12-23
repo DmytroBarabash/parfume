@@ -21,8 +21,8 @@ import java.util.ResourceBundle;
 public class ExcelExporter {
 
     public static void export(List<Product> products, String fileName) throws IOException {
-        ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale("ru", "RU"));
-        //ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale("en", "EN"));
+        //ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale("ru", "RU"));
+        ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale("en", "US"));
 
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -42,7 +42,8 @@ public class ExcelExporter {
         Row head = sheet.createRow(i++);
         for (Map.Entry<Integer, ProductProperty> e : columns.entrySet()) {
             Cell cell = head.createCell(e.getKey(), Cell.CELL_TYPE_STRING);
-            cell.setCellValue(messages.getString(Product.class.getName() + "." + e.getValue().name()));
+            //cell.setCellValue(messages.getString(Product.class.getName() + "." + e.getValue().name()));
+            cell.setCellValue(e.getValue().name());
         }
         for (Product product : products) {
             Row row = sheet.createRow(i++);
@@ -83,7 +84,7 @@ public class ExcelExporter {
                     break;
                 case PRICE:
                     cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
-                    cell.setCellValue(product.getPrice().doubleValue());
+                    cell.setCellValue(product.getOutPrice().doubleValue());
                     break;
                 case VOLUME:
                     Integer volume = product.getVolume();

@@ -15,6 +15,7 @@ public class Product {
     private Gender gender = Gender.UNKNOWN;
     private Integer volume;
     private BigDecimal price;
+    private BigDecimal outPrice;
     private String category;
     private String description;
     private String supplier;
@@ -76,6 +77,62 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+        outPrice = calculate(price);
+    }
+
+    /**
+     * если менее 10уе + 4уе
+     * 10-25уе +6уе
+     * 25-35уе + 7уе
+     * 35-50уе + 9уе
+     * 50-70уе + 12уе
+     * 70- 100уе+ 16уе
+     * 100- 150уе + 20уе
+     * 150 и более + 45уе
+     */
+    private static final BigDecimal P1 = BigDecimal.TEN;
+    private static final BigDecimal P2 = new BigDecimal("25");
+    private static final BigDecimal P3 = new BigDecimal("35");
+    private static final BigDecimal P4 = new BigDecimal("50");
+    private static final BigDecimal P5 = new BigDecimal("70");
+    private static final BigDecimal P6 = new BigDecimal("100");
+    private static final BigDecimal P7 = new BigDecimal("150");
+    private static final BigDecimal A1 = new BigDecimal("4");
+    private static final BigDecimal A2 = new BigDecimal("6");
+    private static final BigDecimal A3 = new BigDecimal("7");
+    private static final BigDecimal A4 = new BigDecimal("9");
+    private static final BigDecimal A5 = new BigDecimal("12");
+    private static final BigDecimal A6 = new BigDecimal("16");
+    private static final BigDecimal A7 = new BigDecimal("20");
+    private static final BigDecimal A8 = new BigDecimal("45");
+
+    private static BigDecimal calculate(BigDecimal price) {
+        if (price.compareTo(P1) < 0) {
+            return price.add(A1);
+        }
+        if (price.compareTo(P2) < 0) {
+            return price.add(A2);
+        }
+        if (price.compareTo(P3) < 0) {
+            return price.add(A3);
+        }
+        if (price.compareTo(P4) < 0) {
+            return price.add(A4);
+        }
+        if (price.compareTo(P5) < 0) {
+            return price.add(A5);
+        }
+        if (price.compareTo(P6) < 0) {
+            return price.add(A6);
+        }
+        if (price.compareTo(P7) < 0) {
+            return price.add(A7);
+        }
+        return price.add(A8);
+    }
+
+    public BigDecimal getOutPrice() {
+        return outPrice;
     }
 
     public String getCategory() {
@@ -118,6 +175,7 @@ public class Product {
                 .add("gender", gender)
                 .add("volume", volume)
                 .add("price", price)
+                .add("outPrice", outPrice)
                 .add("category", category)
                 .add("description", description)
                 .add("supplier", supplier)
