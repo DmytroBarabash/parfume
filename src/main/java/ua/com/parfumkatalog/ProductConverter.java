@@ -55,10 +55,11 @@ public class ProductConverter {
                         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
                             product.setPrice(BigDecimal.valueOf(cell.getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
                         } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
-                            product.setPrice(new BigDecimal(cell.getStringCellValue()));
+                            String s = cell.getStringCellValue().replace(",", ".");
+                            product.setPrice(new BigDecimal(s));
                         }
                     } catch (NumberFormatException ex) {
-                        // nothing to do
+                        LOGGER.warn("Wrong price in cell " + cell);
                     }
                     break;
                 case VOLUME:
