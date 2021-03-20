@@ -3,6 +3,7 @@ package ua.com.parfumkatalog;
 import com.google.common.collect.ImmutableMap;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Dmytro Barabash
- *         2015-09-26 22:21
+ * 2015-09-26 22:21
  */
 public class ExcelExporter {
 
@@ -41,7 +42,7 @@ public class ExcelExporter {
                 .build();
         Row head = sheet.createRow(i++);
         for (Map.Entry<Integer, ProductProperty> e : columns.entrySet()) {
-            Cell cell = head.createCell(e.getKey(), Cell.CELL_TYPE_STRING);
+            Cell cell = head.createCell(e.getKey(), CellType.STRING);
             //cell.setCellValue(messages.getString(Product.class.getName() + "." + e.getValue().name()));
             cell.setCellValue(e.getValue().name());
         }
@@ -60,45 +61,45 @@ public class ExcelExporter {
             Cell cell;
             switch (entry.getValue()) {
                 case CODE:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getCode());
                     break;
                 case CATEGORY:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getCategory());
                     break;
                 case NAME:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getName());
                     break;
                 case GENDER:
                     Gender gender = product.getGender();
                     if (gender != Gender.UNKNOWN) {
-                        cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                        cell = row.createCell(entry.getKey(), CellType.STRING);
                         cell.setCellValue(product.getGender().name());
                     }
                     break;
                 case DESCRIPTION:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getDescription());
                     break;
                 case PRICE:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
+                    cell = row.createCell(entry.getKey(), CellType.NUMERIC);
                     cell.setCellValue(product.getOutPrice().doubleValue());
                     break;
                 case VOLUME:
                     Integer volume = product.getVolume();
                     if (volume != null) {
-                        cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_NUMERIC);
+                        cell = row.createCell(entry.getKey(), CellType.NUMERIC);
                         cell.setCellValue(volume);
                     }
                     break;
                 case SUPPLIER:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getSupplier());
                     break;
                 case SUPER_CODE:
-                    cell = row.createCell(entry.getKey(), Cell.CELL_TYPE_STRING);
+                    cell = row.createCell(entry.getKey(), CellType.STRING);
                     cell.setCellValue(product.getSuperCode());
                     break;
                 default:

@@ -2,13 +2,11 @@ package ua.com.parfumkatalog;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.CellType;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:dmytro.barabash@playtech.com"> Dmytro Barabash</a> 2014-02-08 02:14
@@ -52,9 +50,9 @@ public class ProductConverter {
                     break;
                 case PRICE:
                     try {
-                        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                             product.setPrice(BigDecimal.valueOf(cell.getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
-                        } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+                        } else if (cell.getCellTypeEnum() == CellType.STRING) {
                             String s = cell.getStringCellValue().replace(",", ".");
                             product.setPrice(new BigDecimal(s));
                         }
@@ -64,9 +62,9 @@ public class ProductConverter {
                     break;
                 case VOLUME:
                     try {
-                        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                            product.setVolume(new Double(cell.getNumericCellValue()).intValue());
-                        } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+                        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                            product.setVolume(Double.valueOf(cell.getNumericCellValue()).intValue());
+                        } else if (cell.getCellTypeEnum() == CellType.STRING) {
                             product.setVolume(Integer.valueOf(cell.getStringCellValue()));
                         }
                     } catch (NumberFormatException ex) {

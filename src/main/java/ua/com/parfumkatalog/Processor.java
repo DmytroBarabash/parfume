@@ -24,8 +24,8 @@ public class Processor {
     private List<String> superCodes;
 
     private String getStringValue(Cell cell, DataFormatter f) {
-        switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_STRING:
+        switch (cell.getCellTypeEnum()) {
+            case STRING:
                 return cell.getStringCellValue();
             default:
                 return f.formatCellValue(cell);

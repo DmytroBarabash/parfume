@@ -6,7 +6,11 @@ import org.apache.poi.ss.usermodel.Cell;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * @author <a href="mailto:dmytro.barabash@playtech.com"> Dmytro Barabash</a> 2013-09-06 15:42
@@ -52,7 +56,7 @@ public class Main {
             }
 
             if (sameProducts.size() > 1) {
-                Collections.sort(sameProducts, new Comparator<Product>() {
+                sameProducts.sort(new Comparator<Product>() {
                     public int compare(Product o1, Product o2) {
                         return o1.getPrice().compareTo(o2.getPrice());
                     }
