@@ -9,10 +9,10 @@ import org.apache.poi.ss.usermodel.CellType;
 public class Util {
 
     public static String readCode(Cell cell) {
-        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+        if (cell.getCellType() == CellType.NUMERIC) {
             return String.valueOf(Math.round(cell.getNumericCellValue()));
         }
-        if (cell.getCellTypeEnum() == CellType.STRING) {
+        if (cell.getCellType() == CellType.STRING) {
             return cell.getStringCellValue();
         }
         return null;

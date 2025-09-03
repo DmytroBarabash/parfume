@@ -50,9 +50,9 @@ public class ProductConverter {
                     break;
                 case PRICE:
                     try {
-                        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                        if (cell.getCellType() == CellType.NUMERIC) {
                             product.setPrice(BigDecimal.valueOf(cell.getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
-                        } else if (cell.getCellTypeEnum() == CellType.STRING) {
+                        } else if (cell.getCellType() == CellType.STRING) {
                             String s = cell.getStringCellValue().replace(",", ".");
                             product.setPrice(new BigDecimal(s));
                         }
@@ -62,9 +62,9 @@ public class ProductConverter {
                     break;
                 case VOLUME:
                     try {
-                        if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                        if (cell.getCellType() == CellType.NUMERIC) {
                             product.setVolume(Double.valueOf(cell.getNumericCellValue()).intValue());
-                        } else if (cell.getCellTypeEnum() == CellType.STRING) {
+                        } else if (cell.getCellType() == CellType.STRING) {
                             product.setVolume(Integer.valueOf(cell.getStringCellValue()));
                         }
                     } catch (NumberFormatException ex) {

@@ -3,10 +3,7 @@ package ua.com.parfumkatalog;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
@@ -47,11 +44,11 @@ public class ExcelImporter {
         try {
             Workbook workBook = WorkbookFactory.create(new FileInputStream(fileName));
             Sheet sheet = workBook.getSheetAt(0);
-            Iterator rowIterator = sheet.rowIterator();
+            Iterator<Row> rowIterator = sheet.rowIterator();
 
             while (rowIterator.hasNext()) {
                 HSSFRow row = (HSSFRow) rowIterator.next();
-                Iterator cellIterator = row.cellIterator();
+                Iterator<Cell> cellIterator = row.cellIterator();
                 List<Cell> cellStoreVector = new ArrayList<Cell>();
 
                 while (cellIterator.hasNext()) {
@@ -71,11 +68,11 @@ public class ExcelImporter {
         try {
             Workbook workBook = WorkbookFactory.create(new FileInputStream(fileName));
             Sheet sheet = workBook.getSheetAt(0);
-            Iterator rowIterator = sheet.rowIterator();
+            Iterator<Row> rowIterator = sheet.rowIterator();
 
             while (rowIterator.hasNext()) {
                 XSSFRow row = (XSSFRow) rowIterator.next();
-                Iterator cellIterator = row.cellIterator();
+                Iterator<Cell> cellIterator = row.cellIterator();
                 List<Cell> cellStoreVector = new ArrayList<Cell>();
 
                 while (cellIterator.hasNext()) {
