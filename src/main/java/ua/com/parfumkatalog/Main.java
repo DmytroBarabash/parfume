@@ -31,7 +31,7 @@ public class Main {
         ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
         System.out.println(messages.getString("ua.com.parfumkatalog.Product.CODE"));
 
-        String codesFile = "xls/коды.xls";
+        String codesFile = "xls/codes.xls";
         File file = new File(codesFile);
         if (!file.exists()) {
             logger.error("File " + file + " not found");
